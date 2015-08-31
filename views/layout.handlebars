@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{{siteTitle}}</title>
+
+  <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" media="all" rel="stylesheet" />
+  <link href="/css/app.css" media="all" rel="stylesheet" />
+</head>
+
+<body lang="en">
+
+  <header id="layout-marker">
+    Layout Loaded
+  </header>
+
+  <div id="canvas" class="container">
+        {{{body}}}
+  </div>
+
+  <form class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label" for="inputEmail">Email</label>
+    <div class="controls">
+      <input type="text" id="inputEmail" placeholder="Email">
+    </div>
+  </div>
+
+<label class="radio" for="optionsRadios1">Selecciona un Color:</label>
+  <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+  Verde
+</label>
+<label class="radio">
+  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+  Azul
+</label>
+
+Selecciona un número<select>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+</select>
+
+
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">Sign in</button>
+    </div>
+  </div>
+</form>
+
+</body>
+
+<script src="/js/ios-orientationchange-fix.js"></script>
+<script src="/bower_components/jquery/jquery.min.js"></script>
+<script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+</html>
