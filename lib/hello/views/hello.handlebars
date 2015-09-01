@@ -1,4 +1,135 @@
-<div class="row">
-    <h2>{{welcomeMessage}}</h2>
-    <p>We are very glad to see you today!
-</div>
+<section id="contact" style="margin-top:120px">
+  <div class="container col-xs-12">
+      <div class="row">
+          <div class="col-lg-12 text-center">
+                    <h2>Desafio SantiagoLab</h2>
+                    <hr class="star-primary">
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                    <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
+                    <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
+              <form name="sentMessage" id="contactForm" novalidate>
+                <div class="row control-group"></div>
+                    <div class="row control-group">
+                      <div class="form-group col-xs-12 floating-label-form-group controls">
+                        <label>Dirección de Correo Electrónico</label>
+                        <input type="email" class="form-control" placeholder="Tu Dirección de Correo Electrónico" id="email" required="required" data-validation-required-message="Please enter your Email.">
+                                <p class="help-block text-danger"></p>
+                      </div>
+                    </div>
+                    <div class="row control-group">
+                      <div class="form-group col-xs-12 floating-label-form-group controls">
+                        <label>Selecciona un Color</label>
+                            <div class="radio">
+                                  <label>
+                                   <input name="valid_radio"type="radio" value="Verde"> Verde
+                                  </label>
+                                  </div>
+                                  <div class="radio">
+                                  <label>
+                                  <input value="Azul" name="valid_radio" type="radio"> Azul
+                                  </label>
+                                </div>
+                    </div>
+                      </div>
+
+                    <div class="row control-group">
+                      <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>Selecciona un Número</label>
+                              <p class="help-block text-danger"></p>
+                              <select id="dropdown"class="form-control">
+                                <option>-</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                              </select>
+                      </div>
+                    </div>
+                        <br>
+                    <div id="success"></div>
+                      <div class="row" style="text-align:center">
+                          <div class="form-group col-xs-12 col-xs-offset-2"></div>
+                                <button type="submit" class="btn btn-primary btn-lg">Enviar</button>
+                      </div>
+                    </div>
+              </form>
+            </div>
+        </div>
+    </div> <!-- master row ends here -->
+  </div>
+
+<script type="text/javascript">
+   $(document).ready(function(){
+      //JQuery para tomar el Id del formulario
+      $( "#contactForm" ).submit(function( event ) {
+        //alert( "Handler for .submit() called." );
+
+        var form_is_valid = true;
+
+        var email_val = $( "#email").val();
+        if (email_val == "" || !isValidEmailAddress(email_val))
+          form_is_valid = false;
+
+        var radio_button= $('input[name=valid_radio]:checked');
+        var radio_value = radio_button.val();
+        if (radio_button.length != 1 || (radio_value != "Verde" && radio_value != "Azul"))
+          form_is_valid = false;
+
+        var dropdown_value= $('#dropdown option:selected').text();
+        if (!$.isNumeric(dropdown_value) ||  (dropdown_value < 0 || dropdown_value > 4))
+          form_is_valid = false;
+
+
+
+
+        // run last
+        if(form_is_valid) {
+          // Submit form
+
+          $.ajax({
+          url: '/hello/user',
+          data: "",
+          type: 'PUT',
+
+          success: function(response) {
+            console.log("Success!");
+
+            if(response == "success"){
+            	//alert("Excellent");
+            	
+            	$("form").parent().append("<div class='alert alert-success'>Got the data</div>");
+            	$("form").hide();
+            }
+            else
+            	$("form").append("<div class='alert alert-success'>There was a problem!!!</div>");
+            },
+            error: function(response) {
+              console.log("Error response");
+            }
+          });
+
+
+
+          console.log("VALID");
+        } else
+        {
+          // Dont and show error
+          console.log("Not valid");
+        }
+
+        event.preventDefault();
+      });
+      
+      $('.selectpicker').selectpicker({
+        style: 'btn-info',
+        size: 4
+    });
+
+
+   });
+   function isValidEmailAddress(emailAddress) {
+    var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+    return pattern.test(emailAddress);
+};
+</script>
