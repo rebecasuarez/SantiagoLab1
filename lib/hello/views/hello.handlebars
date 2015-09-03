@@ -14,7 +14,7 @@
                     <div class="row control-group">
                       <div class="form-group col-xs-12 floating-label-form-group controls">
                         <label>Dirección de Correo Electrónico</label>
-                        <p><span id ="error" style="display:none" >Campo no puede estar vacio</span></p>
+                        <p><span id ="error" style="display:none" >*No olvides escribir tu email</span></p>
                         <input type="email" class="form-control" placeholder="Tu Dirección de Correo Electrónico" id="email">
                                 <p class="help-block text-danger"></p>
                       </div>
@@ -22,7 +22,7 @@
                     <div class="row control-group">
                       <div class="form-group col-xs-12 floating-label-form-group controls">
                         <label>Selecciona un Color</label>
-                        <p><span id ="error2" style="display:none" >Selecciona un color</span></p>
+                        <p><spam id ="error2" style="display:none" >*Selecciona un color</spam></p>
                             <div class="radio">
                                   <label>
                                    <input name="valid_radio"type="radio" value="Verde"> Verde
@@ -39,7 +39,7 @@
                     <div class="row control-group">
                       <div class="form-group col-xs-12 floating-label-form-group controls">
                             <label>Selecciona un Número</label>
-                            <p><span id ="error3" style="display:none" >Selecciona un número</span></p>
+                            <p><span id ="error3" style="display:none" >*Selecciona un número</span></p>
                               <p class="help-block text-danger"></p>
                               <select id="dropdown"class="form-control">
                                 <option>-</option>
@@ -53,7 +53,7 @@
                     <div id="success"></div>
                       <div class="row" style="text-align:center">
                           <div class="form-group col-xs-12 col-xs-offset-2"></div>
-                                <button type="submit" class="btn btn-success btn-lg">Enviar</button>
+                                <button type="submit" class="btn btn-default btn-lg">Enviar</button>
                       </div>
                     </div>
               </form>
@@ -66,22 +66,39 @@
    $(document).ready(function(){
       //JQuery para tomar el Id del formulario
       $( "#contactForm" ).submit(function( event ) {
+
+        // clear previous errors
+        $("#error").hide();
+          $("#error2").hide();
+          $("#error3").hide();
         //alert( "Handler for .submit() called." );
 
         var form_is_valid = true;
+        var email_failure = false;
+        var radio_failure = false;
+        var dropdown_failure = false;
 
         var email_val = $( "#email").val();
-        if (email_val == "" || !isValidEmailAddress(email_val))
+        if (email_val == "" || !isValidEmailAddress(email_val)) {
+
+          email_failure = true;
           form_is_valid = false;
+        }
+
 
         var radio_button= $('input[name=valid_radio]:checked');
+
         var radio_value = radio_button.val();
-        if (radio_button.length != 1 || (radio_value != "Verde" && radio_value != "Azul"))
+        if (radio_button.length != 1 || (radio_value != "Verde" && radio_value != "Azul")) {
+          radio_failure = true;
           form_is_valid = false;
+        }
 
         var dropdown_value= $('#dropdown option:selected').text();
-        if (!$.isNumeric(dropdown_value) ||  (dropdown_value < 0 || dropdown_value > 4))
+        if (!$.isNumeric(dropdown_value) ||  (dropdown_value < 0 || dropdown_value > 4)) {
+          dropdown_failure = true;
           form_is_valid = false;
+        }
 
 
 
@@ -91,15 +108,16 @@
           // Submit form
 
           $.ajax({
-          url: '/hello/user',
-          data: "",
           type: 'PUT',
-
+          url: '/user',
+          
+          data: {email:email_val,radio:radio_value,dropdown:dropdown_value},
+          dataType : "json",
           success: function(response) {
             console.log("Yeah!");
 
 
-            if(response == "success"){
+            if(response.status == "success"){
             	//alert("Excellent");
             	
             	$("form").parent().append("<div class='alert alert-success'>Informacion recibida</div>");
@@ -120,9 +138,18 @@
         {
           // Dont and show error
           console.log("Not valid");
-          $("#error").fadeIn();
-          $("#error2").fadeIn();
-          $("#error3").fadeIn();
+          if (email_failure == true) {
+                      $("#error").fadeIn();
+
+          }
+
+          if (radio_failure == true) {
+            $("#error2").fadeIn();
+          }
+
+          if (dropdown_failure == true) {
+            $("#error3").fadeIn();
+          }
         }
 
         event.preventDefault();

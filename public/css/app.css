@@ -27,7 +27,7 @@ body {
     color: #ffffff;
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 500;
-    font-size: 22px;
+    font-size: 26px;
 
 }
 
@@ -36,14 +36,14 @@ body {
     
 }
 
-.btn-success {
+.btn-default {
     color: #ffffff;
     background-color: #C299A5;
     border-color: #C299A5;
     margin-left: 0px;
 }
 
-.btn-success:hover, .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open > .dropdown-toggle.btn-success {
+.btn-default:hover, .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
     color: #C299A5;
     background: #ffffff;
     border-color: #C299A5;
